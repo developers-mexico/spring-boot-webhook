@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "ansible",
+      "type": "com.webhook.ansible.AnsibleProperties",
+      "sourceType": "com.webhook.ansible.AnsibleProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "ansible.projects",
+      "type": "com.webhook.ansible.AnsibleProject[]",
+      "sourceType": "com.webhook.ansible.AnsibleProperties"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,17 @@
+= Spring Boot WebHook Handler
+
+
+== Ansible
+
+[source,yaml]
+----
+---
+- hosts: web
+  tasks:
+  - name: Update and build UI
+    shell: |
+      git pull
+      npm run build
+    args:
+      chdir: /opt/web
+----

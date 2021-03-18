@@ -1,0 +1,26 @@
+# Server
+server:
+  address: 0.0.0.0
+
+# Info
+spring:
+  application:
+    name: webhook
+
+info:
+  developer: Felipe Gutierrez
+  version: 0.0.1
+
+# Ansible
+ansible:
+  projects:
+  - name: management-ui
+    path: /opt/playbooks
+    command: ['ansible-playbook','management-ui.yml']
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,configprops
