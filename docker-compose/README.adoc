@@ -1,0 +1,21 @@
+= Docker / Ansible
+:icons: font
+
+. Use `docker-compose up`
+. Execute the `ansible` docker image:
++
+[source,shell]
+----
+docker run --rm -it --name ansible --workdir /root -h ansible -v $PWD/ansible:/opt --network docker-compose_alpine-network woahbase/alpine-ansible:x86_64 bash
+----
++
+WARNING: *DO NOT EXIT* this container.
+
+. Inside `ansible` container
++
+[source,shell]
+----
+PS1="$PWD$ "
+ssh-keygen -t rsa -b 4096 -f /root/.ssh/id_rsa -q -P ""
+
+----

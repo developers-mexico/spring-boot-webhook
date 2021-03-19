@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+
+  alpine01:
+    container_name: alpine01
+    hostname: alpine01
+    build: ./build
+    ports:
+    - "8081:80"
+    volumes:
+      - ./alpine01:/opt
+    networks:
+      - alpine-network
+
+  alpine02:
+    container_name: alpine02
+    hostname: alpine02
+    build: ./build
+    ports:
+    - "8082:80"
+    volumes:
+      - ./alpine02:/opt
+    networks:
+      - alpine-network
+
+networks:
+  alpine-network:
