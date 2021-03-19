@@ -1,6 +1,15 @@
 = Docker / Ansible
 :icons: font
 
+== Infrastructure
+
+. Analyze the `docker-compose.yml` file.
++
+[source,yaml]
+----
+include::docker-compose.yml[]
+----
+
 . Use `docker-compose up -d`
 . Execute followgin commands to start up the `ansible` container:
 +
@@ -68,7 +77,7 @@ alpine02
 alpine02
 ----
 
-In order to avoid any _warning_ add the following content to the `ansible.cfg` file:
+. In order to avoid any _warning_ add the following content to the `ansible.cfg` file:
 +
 [source,shell]
 ./etc/ansible/ansible.cfg
@@ -137,10 +146,22 @@ ansible web -m shell -a "date"
     args:
       chdir: /opt/web
 ----
-+
+
 [source,shell]
 ansible-playbook playbook.yml
 
+== Live Demo
+
+This demo will demonstrate how to use Ansible with a connected WebHook from Github.
+
+
+== Cleanup
+
+[source,shell]
+docker-compose down
+docker rmi -f docker-compose_alpine01
+docker rmi -f docker-compose_alpine02
+docker rm -f $(docker ps -qa)
 
 
 == Adding Software in Alpine OS
