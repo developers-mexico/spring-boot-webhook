@@ -1,17 +1,18 @@
 = Spring Boot WebHook Handler
 
+== Requirements
 
-== Ansible
+- `docker` and `docker-compose` installed
+- Images to use:
++
+[source,shell]
+----
+docker pull alpine
+docker pull nginx:stable-alpine
+----
 
-[source,yaml]
-----
----
-- hosts: web
-  tasks:
-  - name: Update and build UI
-    shell: |
-      git pull
-      npm run build
-    args:
-      chdir: /opt/web
-----
+== Labs
+
+- Go to the `docker-compose` folder and take a look at the instructions.
+
+

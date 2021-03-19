@@ -1,21 +1,151 @@
 = Docker / Ansible
 :icons: font
 
-. Use `docker-compose up`
-. Execute the `ansible` docker image:
+. Use `docker-compose up -d`
+. Execute followgin commands to start up the `ansible` container:
 +
 [source,shell]
 ----
-docker run --rm -it --name ansible --workdir /root -h ansible -v $PWD/ansible:/opt --network docker-compose_alpine-network woahbase/alpine-ansible:x86_64 bash
+docker run --rm -it --name ansible --workdir /root -h ansible -v $PWD/playbooks:/opt/playbooks -v $PWD/workspace:/opt/workspace --network docker-compose_alpine-network woahbase/alpine-ansible:x86_64 bash
+PS1="[\h]\w $ "
+ssh-keygen -t rsa -b 4096 -f /root/.ssh/id_rsa -q -P ""
+cp .ssh/id_rsa.pub /opt/workspace/authorized_keys
 ----
 +
 WARNING: *DO NOT EXIT* this container.
 
-. Inside `ansible` container
+. In another terminal windows will copy the `authorized_keys` into `alpine01` and `alpine02`
 +
 [source,shell]
 ----
-PS1="$PWD$ "
-ssh-keygen -t rsa -b 4096 -f /root/.ssh/id_rsa -q -P ""
+docker cp workspace/authorized_keys alpine01:/root/.ssh/
+docker cp workspace/authorized_keys alpine02:/root/.ssh/
+----
++
+Change the _owner_ and _group_ of the `authorized_keys`
++
+[source,shell]
+----
+docker exec alpine01 chown root:root .ssh/authorized_keys
+docker exec alpine01 chown root:root .ssh/authorized_keys
+----
 
+. Add a password just for 1 time to each container.
++
+[source,shell]
+----
+docker exec alpine01 ash -c "echo -e 'ad-inP1wX\nad-inP1wX' | passwd > /dev/null 2>&1"
+docker exec alpine02 ash -c "echo -e 'ad-inP1wX\nad-inP1wX' | passwd > /dev/null 2>&1"
+----
+
+. Make sure you have connection without password prompt. This is in the `ansible` container.
++
+----
+ssh alpine01
+ssh alpine02
+----
++
+You can exit from the `alpine01` and `alpine02` containers.
+
+TIP: When working with multiple containers, you can execute `PS1="[\h]\w $ "` to change the prompt.
+
+== Ansible Tests
+
+*Ansible* depends of an inventory file located at `/etc/ansible/hosts`.
+A typical inventory file can list the managed host either by IP address or by domain names.
+It is also possible to list one managed host in more than one group.
+
+. Modify the `hosts` with the following content:
++
+[source,shell]
+./etc/ansible/hosts
+----
+[web]
+alpine01
+alpine02
+
+[backend]
+alpine02
+----
+
+In order to avoid any _warning_ add the following content to the `ansible.cfg` file:
++
+[source,shell]
+./etc/ansible/ansible.cfg
+[source,shell]
+----
+[defaults]
+interpreter_python = /usr/bin/python3
+----
+
+=== Ansible Command Line
+
+- List all hosts
++
+[source,shell]
+ansible all --list-hosts
+
+- List by group
++
+[source,shell]
+ansible web --list-hosts
+
+- Ping per group
++
+[source,shell]
+ansible web -m ping
+
+- Ping per host
++
+[source,shell]
+ansible alpine01 -m ping
+
+- List available modules
++
+[source,shell]
+ansible-doc -l
+
+- Copy
++
+[source,shell]
+ansible backend -m copy -a "src=/root/text dest=/root/"
+
+- Command (*default* module)
++
+[source,shell]
+ansible web -m command -a "ls -lrt /root"
+
+- Shell
++
+[source,shell]
+ansible web -m shell -a "date"
+
+
+
+== Ansible Playbooks
+
+[source,yaml]
+.playbook.yaml
+----
+---
+- hosts: web
+  tasks:
+  - name: Update and build UI
+    shell: |
+      git pull
+      npm run build
+    args:
+      chdir: /opt/web
+----
++
+[source,shell]
+ansible-playbook playbook.yml
+
+
+
+== Adding Software in Alpine OS
+
+[source,shell]
+----
+apk add --no-cache --update-cache nodejs nodejs-npm git
 ----
