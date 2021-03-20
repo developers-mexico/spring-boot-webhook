@@ -11,6 +11,52 @@ docker pull alpine
 docker pull nginx:stable-alpine
 ----
 
+== Spring Boot
+
+. Go to https://start.spring.io
+. Dependencies: _**Web**_, _**Lombok**_, _**Actuator**_
+. Important classes:
++
+[source,java]
+.src/main/java/com/webhook/external/SystemExecution.java
+----
+include::src/main/java/com/webhook/external/SystemExecution.java[]
+----
++
+[source,java]
+.src/main/java/com/webhook/external/SystemCall.java
+----
+include::src/main/java/com/webhook/external/SystemCall.java[]
+----
++
+[source,java]
+.src/main/java/com/webhook/external/SystemProject.java
+----
+include::src/main/java/com/webhook/external/SystemProject.java[]
+----
++
+[source,java]
+.src/main/java/com/webhook/external/SystemStream.java
+----
+include::src/main/java/com/webhook/external/SystemStream.java[]
+----
++
+[source,java]
+.src/main/java/com/webhook/external/SystemCommonProperties.java
+----
+include::src/main/java/com/webhook/external/SystemCommonProperties.java[]
+----
+
+. `WebHookController` class that will accept requests from GitHub.
++
+[source,java]
+.src/main/java/com/webhook/github/WebHookController.java
+----
+include::src/main/java/com/webhook/github/WebHookController.java[]
+----
+
+TIP: Analyze the classes and take a look at the `Ansible` implementation.
+
 == Labs
 
 - Go to the `docker-compose` folder and take a look at the instructions.
