@@ -6,8 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @Log4j2
 @AllArgsConstructor
 @RequestMapping("/api/github")
@@ -24,3 +22,5 @@ public class WebHookController {
     }
 
 }
+
+
