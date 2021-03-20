@@ -36,7 +36,7 @@ Change the _owner_ and _group_ of the `authorized_keys`
 [source,shell]
 ----
 docker exec alpine01 chown root:root .ssh/authorized_keys
-docker exec alpine01 chown root:root .ssh/authorized_keys
+docker exec alpine02 chown root:root .ssh/authorized_keys
 ----
 
 . Add a password just for 1 time to each container.

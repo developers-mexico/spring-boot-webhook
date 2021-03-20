@@ -612,7 +612,7 @@ docker cp workspace/authorized_keys alpine02:/root/.ssh/</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="shell">docker exec alpine01 chown root:root .ssh/authorized_keys
-docker exec alpine01 chown root:root .ssh/authorized_keys</code></pre>
+docker exec alpine02 chown root:root .ssh/authorized_keys</code></pre>
 </div>
 </div>
 </li>
@@ -820,7 +820,7 @@ docker rm -f $(docker ps -qa)</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-03-19 13:32:12 -0400
+Last updated 2021-03-20 14:25:06 -0400
 </div>
 </div>
 </body>
